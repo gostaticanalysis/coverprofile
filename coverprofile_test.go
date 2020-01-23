@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/gostaticanalysis/coverprofile"
-	"golang.org/x/tools/cover"
 	"golang.org/x/tools/go/analysis/analysistest"
 )
 
@@ -22,7 +21,7 @@ func Test(t *testing.T) {
 		tt := tt
 		t.Run(tt.pkg, func(t *testing.T) {
 			rs := analysistest.Run(t, testdata, coverprofile.Analyzer, tt.pkg)
-			
+
 			// ignore xxx_test and xxx.test
 			var r *analysistest.Result
 			for i := range rs {
@@ -39,7 +38,7 @@ func Test(t *testing.T) {
 			switch {
 			case tt.hasCoverProfile && rs[0].Result == nil:
 				t.Error("coverprofile cannot parse")
-			case !tt.hasCoverProfile && rs[0].Result.([]*cover.Profile) != nil: // memo: typed nil
+			case !tt.hasCoverProfile && rs[0].Result.([]*coverprofile.File) != nil: // memo: typed nil
 				t.Error("an unexpected coverprofile has parsed")
 			}
 		})
